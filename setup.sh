@@ -69,7 +69,7 @@ echo "prometheus"
 
 function_node_exporter_todo  () {
 printf "${RED}You don't forget change your prometheus config file.\n ${YELLOW}"
-printf "Node exporter port: 9090/TCP ${NC}\n"
+printf "Node exporter port: 9100/TCP ${NC}\n"
 }
 
 function_mysqld_exporter_todo  () {
