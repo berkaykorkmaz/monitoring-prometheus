@@ -2,7 +2,7 @@
 prometheus_version="2.19.2"      # check latest version https://github.com/prometheus/prometheus/releases
 node_exporter_version="1.0.1"    # check latest version https://github.com/prometheus/node_exporter/releases
 mysqld_exporter_version="0.12.1" # check latest version https://github.com/prometheus/mysqld_exporter/releases
-redis_exporter_version="1.9.0"   # check latest version https://github.com/oliver006/redis_exporter/releases
+redis_exporter_version="1.11.1"   # check latest version https://github.com/oliver006/redis_exporter/releases
 nginx_exporter_version="0.8.0"   # check latest version https://github.com/nginxinc/nginx-prometheus-exporter/releases
 phpfpm_exporter_version="0.5.0"  # check latest version https://github.com/Lusitaniae/phpfpm_exporter/releases
 mysql_username="deneme"
