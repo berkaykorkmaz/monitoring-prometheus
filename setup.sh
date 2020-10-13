@@ -19,7 +19,7 @@ mysqld_exporter_url="https://github.com/prometheus/mysqld_exporter/releases/down
 redis_exporter_url="https://github.com/oliver006/redis_exporter/releases/download/v${redis_exporter_version}/redis_exporter-v${redis_exporter_version}.linux-amd64.tar.gz"
 nginx_exporter_url="https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${nginx_exporter_version}/nginx-prometheus-exporter-${nginx_exporter_version}-linux-amd64.tar.gz"
 phpfpm_exporter_url="https://github.com/Lusitaniae/phpfpm_exporter/releases/download/v${phpfpm_exporter_version}/phpfpm_exporter-${phpfpm_exporter_version}.linux-amd64.tar.gz"
-mongodb_expoerter_url="https://github.com/percona/mongodb_exporter/releases/download/v${mongodb_exporter_version}/mongodb_exporter-${mongodb_exporter_version}.linux-amd64.tar.gz"
+mongodb_exporter_url="https://github.com/percona/mongodb_exporter/releases/download/v${mongodb_exporter_version}/mongodb_exporter-${mongodb_exporter_version}.linux-amd64.tar.gz"
 whileint="1"
 while [ $whileint -eq 1 ]
 do
