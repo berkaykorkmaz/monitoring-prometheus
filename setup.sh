@@ -42,7 +42,8 @@ function_usernodeusr() {
 }
 function_checkapp() {
     if ! command -v $1 &>/dev/null; then
-        echo "$1 could not be found"
+        printf "${YELLOW} "$1 could not be found ${NC} "
+        whileint="0"
     fi
 }
 function_checkfolder() {
