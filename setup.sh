@@ -234,7 +234,7 @@ function_mongodb_exporter_install() {
     rm -rf wget-log*
     printf "${RED} Installation succeed\n ${NC}"
     function_mongodb_exporter_todo
-
+}
 function_service_prometheus() {
     cat >/etc/systemd/system/prometheus.service <<-EOF
 [Unit]
