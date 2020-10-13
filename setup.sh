@@ -112,7 +112,7 @@ function_prometheus_install() {
     printf " ${RED} UYARI: Kurulum $install_dir altina yapılacaktır. Eger path yoksa oluşturulacaktır. ${NC}\n"
     function_checkfolder
     function_userprometheus
-    wget -b $prometheus_url
+    wget $prometheus_url
     sleep 3
     tar -xzf prometheus-*.tar.gz
     #rm -rf prometheus*.tar.gz
