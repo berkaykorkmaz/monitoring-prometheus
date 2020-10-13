@@ -42,7 +42,7 @@ function_usernodeusr() {
 }
 function_checkapp() {
     if ! command -v $1 &>/dev/null; then
-        printf "${YELLOW} $1 could not be found ${NC} "
+        printf "${YELLOW} $1 could not be found ${NC} \n"
         exit 0;
     fi
 }
