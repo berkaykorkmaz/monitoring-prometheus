@@ -273,7 +273,7 @@ WantedBy=multi-user.target
 EOF
 }
 
-function_service_mongodb(){
+function_service_mongodb() {
     cat >/etc/systemd/system/mongodb_exporter.service <<-EOF
 [Unit]
 Description=MongoDB Exporter
