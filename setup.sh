@@ -113,9 +113,9 @@ function_prometheus_install() {
     function_checkfolder
     function_userprometheus
     wget -b $prometheus_url
-    sleep 5
+    sleep 3
     tar -xzf prometheus-*.tar.gz
-    rm -rf prometheus*.tar.gz
+    #rm -rf prometheus*.tar.gz
     if [[ "$(ls -A ${install_dir}/)" ]]; then
         printf "${RED} $install_dir is not empty \n"
     else
