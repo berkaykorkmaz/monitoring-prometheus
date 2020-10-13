@@ -5,6 +5,7 @@ mysqld_exporter_version="0.12.1" # check latest version https://github.com/prome
 redis_exporter_version="1.11.1"   # check latest version https://github.com/oliver006/redis_exporter/releases
 nginx_exporter_version="0.8.0"   # check latest version https://github.com/nginxinc/nginx-prometheus-exporter/releases
 phpfpm_exporter_version="0.5.0"  # check latest version https://github.com/Lusitaniae/phpfpm_exporter/releases
+mongodb_exporter_version="0.11.2"
 mysql_username="deneme"
 mysql_password="deme"
 mysql_host="127.0.0.1"
@@ -18,13 +19,14 @@ mysqld_exporter_url="https://github.com/prometheus/mysqld_exporter/releases/down
 redis_exporter_url="https://github.com/oliver006/redis_exporter/releases/download/v${redis_exporter_version}/redis_exporter-v${redis_exporter_version}.linux-amd64.tar.gz"
 nginx_exporter_url="https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${nginx_exporter_version}/nginx-prometheus-exporter-${nginx_exporter_version}-linux-amd64.tar.gz"
 phpfpm_exporter_url="https://github.com/Lusitaniae/phpfpm_exporter/releases/download/v${phpfpm_exporter_version}/phpfpm_exporter-${phpfpm_exporter_version}.linux-amd64.tar.gz"
+mongodb_expoerter_url="https://github.com/percona/mongodb_exporter/releases/download/v${mongodb_exporter_version}/mongodb_exporter-${mongodb_exporter_version}.linux-amd64.tar.gz"
 whileint="1"
 while [ $whileint -eq 1 ]
 do
 karar='n'
 printf "${RED} Welcome the installation\n "
 printf "Please select which you want to install\n "
-printf "1- Prometheus Server\n 2- Node Exporter\n 3- MySQL Exporter\n 4- Redis Exporter\n 5- Nginx Exporter\n 6- php-fpm exporter \n 7-Grafana Install \n 0- Exit\n "
+printf "1- Prometheus Server\n 2- Node Exporter\n 3- MySQL Exporter\n 4- Redis Exporter\n 5- Nginx Exporter\n 6- php-fpm exporter \n 7- mongodb exporter \n 8-Grafana Install \n 0- Exit\n "
 printf "Selection: ${YELLOW} " && read select
 printf "${NC}"
 
@@ -82,6 +84,11 @@ printf "Mysqld exporter port: 9104/TCP ${NC}\n"
 function_redis_exporter_todo  () {
 printf "${RED}You don't forget change your prometheus config file.\n ${YELLOW}"
 printf "Redis exporter port: 9121/TCP ${NC}\n"
+}
+
+function_mongodb_exporter_todo  () {
+printf "${RED}You don't forget change your prometheus config file.\n ${YELLOW}"
+printf "Mongodb exporter port: 9216/TCP ${NC}\n"
 }
 
 function_nginx_exporter_todo  () {
@@ -215,6 +222,19 @@ function_grafana_install () {
     systemctl enable grafana-server --now
 }
 
+function_mongodb_exporter_install() {
+    wget -b $mongodb_exporter_url
+    sleep 3
+    function_usernodeusr
+    tar -xzf mongodb_exporter-*.tar.gz
+    rm -rf mongodb_exporter-*.tar.gz CHANGELOG.md README.md LICENSE
+    mv mongodb_exporter /usr/local/bin
+    function_service_mongodb
+    systemctl enable mongodb_exporter.service --now
+    rm -rf wget-log*
+    printf "${RED} Installation succeed\n ${NC}"
+    function_mongodb_exporter_todo
+
 function_service_prometheus() {
     cat >/etc/systemd/system/prometheus.service <<-EOF
 [Unit]
@@ -247,6 +267,22 @@ User=nodeusr
 Group=nodeusr
 Type=simple
 ExecStart=/usr/local/bin/node_exporter --collector.supervisord
+
+[Install]
+WantedBy=multi-user.target
+EOF
+}
+
+function_service_mongodb(){
+    cat > /etc/systemd/system/mongodb_exporter.service <<-EOF
+[Unit]
+Description=MongoDB Exporter
+User=nodeusr
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/local/bin/mongodb_exporter
 
 [Install]
 WantedBy=multi-user.target
@@ -351,6 +387,8 @@ elif [[ $select -eq 5 ]]; then
 elif [[ $select -eq 6 ]]; then
     function_phpfpm_exporter_install
 elif [[ $select -eq 7 ]]; then
+    function_mongodb_exporter_install
+elif [[ $select -eq 8 ]]; then
     function_grafana_install
 elif [[ $select -eq 0 ]]; then
     exit 0
