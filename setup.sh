@@ -42,7 +42,7 @@ function_usernodeusr() {
 }
 function_checkapp() {
     if ! command -v $1 &>/dev/null; then
-        printf "${YELLOW} "$1 could not be found ${NC} "
+        printf "${YELLOW} $1 could not be found ${NC} "
         whileint="0"
     fi
 }
@@ -103,7 +103,7 @@ EOF
 }
 
 function_phpfpm_exporter_todo  () {
-printf "${RED}You don\'t forget change your prometheus config file.\n ${YELLOW}"
+printf "${RED}You don't forget change your prometheus config file.\n ${YELLOW}"
 printf "phpfpm exporter port: 9253/TCP ${NC}\n"
 printf "${YELLOW}You should be enable 'pm.status_path = /status' your php-fpm conf${NC}"
 }
