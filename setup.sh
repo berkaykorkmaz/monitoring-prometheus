@@ -274,7 +274,7 @@ EOF
 }
 
 function_service_mongodb(){
-    cat > /etc/systemd/system/mongodb_exporter.service <<-EOF
+    cat >/etc/systemd/system/mongodb_exporter.service <<-EOF
 [Unit]
 Description=MongoDB Exporter
 User=nodeusr
