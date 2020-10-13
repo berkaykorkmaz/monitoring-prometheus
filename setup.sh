@@ -112,7 +112,7 @@ function_prometheus_install() {
     function_checkfolder
     function_userprometheus
     wget -b $prometheus_url
-    sleep 3
+    sleep 5
     tar -xzf prometheus-*.tar.gz
     rm -rf prometheus*.tar.gz
     if [[ "$(ls -A ${install_dir}/)" ]]; then
@@ -362,8 +362,4 @@ read karar
 if [ "$karar" = "n" ] || [ "$karar" = "N" ]; then
     exit 0
 fi
-
-
 done
-
-
