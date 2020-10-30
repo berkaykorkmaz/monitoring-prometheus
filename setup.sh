@@ -1,11 +1,11 @@
 #!/bin/bash
-prometheus_version="2.19.2"      # check latest version https://github.com/prometheus/prometheus/releases
+prometheus_version="2.22.0"      # check latest version https://github.com/prometheus/prometheus/releases
 node_exporter_version="1.0.1"    # check latest version https://github.com/prometheus/node_exporter/releases
 mysqld_exporter_version="0.12.1" # check latest version https://github.com/prometheus/mysqld_exporter/releases
-redis_exporter_version="1.11.1"   # check latest version https://github.com/oliver006/redis_exporter/releases
+redis_exporter_version="1.12.1"   # check latest version https://github.com/oliver006/redis_exporter/releases
 nginx_exporter_version="0.8.0"   # check latest version https://github.com/nginxinc/nginx-prometheus-exporter/releases
 phpfpm_exporter_version="0.5.0"  # check latest version https://github.com/Lusitaniae/phpfpm_exporter/releases
-mongodb_exporter_version="0.11.2"
+mongodb_exporter_version="0.11.2" # check latest version https://github.com/percona/mongodb_exporter/releases/
 mysql_username="deneme"
 mysql_password="deme"
 mysql_host="127.0.0.1"
@@ -72,28 +72,28 @@ echo "prometheus"
 
 function_node_exporter_todo  () {
 printf "${RED}You don't forget change your prometheus config file.\n ${YELLOW}"
-printf "Node exporter port: 9100/TCP ${NC}\n"
+printf "Node exporter port: 9901/TCP ${NC}\n"
 }
 
 function_mysqld_exporter_todo  () {
 printf "${RED}You should be check the /etc/.my.cnf ${NC} "
 printf "${RED}You don't forget change your prometheus config file.\n ${YELLOW}"
-printf "Mysqld exporter port: 9104/TCP ${NC}\n"
+printf "Mysqld exporter port: 9905/TCP ${NC}\n"
 }
 
 function_redis_exporter_todo  () {
 printf "${RED}You don't forget change your prometheus config file.\n ${YELLOW}"
-printf "Redis exporter port: 9121/TCP ${NC}\n"
+printf "Redis exporter port: 9902/TCP ${NC}\n"
 }
 
 function_mongodb_exporter_todo  () {
 printf "${RED}You don't forget change your prometheus config file.\n ${YELLOW}"
-printf "Mongodb exporter port: 9216/TCP ${NC}\n"
+printf "Mongodb exporter port: 9903/TCP ${NC}\n"
 }
 
 function_nginx_exporter_todo  () {
 printf "${RED}You don't forget change your prometheus config file.\n ${YELLOW}"
-printf "Nginx exporter port: 8080/TCP ${NC}\n"
+printf "Nginx exporter port: 9906/TCP ${NC}\n"
 printf "You should be add below nginx conf your nginx."
 cat << EOF
 server {
@@ -111,7 +111,7 @@ EOF
 
 function_phpfpm_exporter_todo  () {
 printf "${RED}You don't forget change your prometheus config file.\n ${YELLOW}"
-printf "phpfpm exporter port: 9253/TCP ${NC}\n"
+printf "phpfpm exporter port: 9904/TCP ${NC}\n"
 printf "${YELLOW}You should be enable 'pm.status_path = /status' your php-fpm conf${NC}"
 }
 
@@ -266,7 +266,7 @@ After=network.target
 User=nodeusr
 Group=nodeusr
 Type=simple
-ExecStart=/usr/local/bin/node_exporter --collector.supervisord
+ExecStart=/usr/local/bin/node_exporter --collector.supervisord --web.listen-address=:9901
 
 [Install]
 WantedBy=multi-user.target
@@ -282,7 +282,7 @@ User=nodeusr
 [Service]
 Type=simple
 Restart=always
-ExecStart=/usr/local/bin/mongodb_exporter
+ExecStart=/usr/local/bin/mongodb_exporter --web.listen-address=:9903
 
 [Install]
 WantedBy=multi-user.target
@@ -301,7 +301,7 @@ User=nodeusr
 Group=nodeusr
 Type=simple
 Restart=always
-ExecStart=/usr/local/bin/mysqld_exporter --config.my-cnf /etc/.my.cnf
+ExecStart=/usr/local/bin/mysqld_exporter --config.my-cnf /etc/.my.cnf --web.listen-address=:9905
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -316,7 +316,7 @@ After=network.target
 Type=simple
 User=nodeusr
 Group=nodeusr
-ExecStart=/usr/local/bin/redis_exporter  --log-format=txt  --namespace=redis  --web.listen-address=:9121  --web.telemetry-path=/metrics
+ExecStart=/usr/local/bin/redis_exporter  --log-format=txt  --namespace=redis  --web.listen-address=:9902  --web.telemetry-path=/metrics
 
 [Install]
 WantedBy=multi-user.target
@@ -333,7 +333,7 @@ After=network.target
 User=nodeusr
 Group=nodeusr
 Type=simple
-ExecStart=/usr/local/bin/nginx-prometheus-exporter -nginx.scrape-uri http://127.0.0.1:8080/stub_status
+ExecStart=/usr/local/bin/nginx-prometheus-exporter -nginx.scrape-uri http://127.0.0.1:8080/stub_status --web.listen-address=:9906
 
 [Install]
 WantedBy=multi-user.target
@@ -349,7 +349,7 @@ After=network.target
 User=root
 Group=root
 Type=simple
-ExecStart=/usr/local/bin/phpfpm_exporter --phpfpm.socket-paths /run/php-fpm/www.sock
+ExecStart=/usr/local/bin/phpfpm_exporter --phpfpm.socket-paths /run/php-fpm/www.sock --web.listen-address=:9904
 
 [Install]
 WantedBy=multi-user.target
