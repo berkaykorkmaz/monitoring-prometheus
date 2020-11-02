@@ -333,7 +333,7 @@ After=network.target
 User=nodeusr
 Group=nodeusr
 Type=simple
-ExecStart=/usr/local/bin/nginx-prometheus-exporter -nginx.scrape-uri http://127.0.0.1:8080/stub_status --web.listen-address=:9906
+ExecStart=/usr/local/bin/nginx_exporter -nginx.scrape-uri http://127.0.0.1:8080/stub_status --web.listen-address=:9906
 
 [Install]
 WantedBy=multi-user.target
