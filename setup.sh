@@ -14,14 +14,15 @@ RED='\033[0;31m'
 NC='\033[0m'
 YELLOW='\033[1;33m'
 install_dir="/data/prometheus"
-prometheus_url="https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-amd64.tar.gz"
-node_exporter_url="https://github.com/prometheus/node_exporter/releases/download/v${node_exporter_version}/node_exporter-${node_exporter_version}.linux-amd64.tar.gz"
-mysqld_exporter_url="https://github.com/prometheus/mysqld_exporter/releases/download/v${mysqld_exporter_version}/mysqld_exporter-${mysqld_exporter_version}.linux-amd64.tar.gz"
-redis_exporter_url="https://github.com/oliver006/redis_exporter/releases/download/v${redis_exporter_version}/redis_exporter-v${redis_exporter_version}.linux-amd64.tar.gz"
-nginx_exporter_url="https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${nginx_exporter_version}/nginx-prometheus-exporter-${nginx_exporter_version}-linux-amd64.tar.gz"
-phpfpm_exporter_url="https://github.com/Lusitaniae/phpfpm_exporter/releases/download/v${phpfpm_exporter_version}/phpfpm_exporter-${phpfpm_exporter_version}.linux-amd64.tar.gz"
-mongodb_exporter_url="https://github.com/percona/mongodb_exporter/releases/download/v${mongodb_exporter_version}/mongodb_exporter-${mongodb_exporter_version}.linux-amd64.tar.gz"
-rabbitmq_exporter_url="https://github.com/kbudde/rabbitmq_exporter/releases/download/v${rabbitmq_exporter_version}/rabbitmq_exporter-${rabbitmq_exporter_version}.linux-amd64.tar.gz"
+ARC=amd64 # amd64 or arm64 
+prometheus_url="https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-${ARCH}.tar.gz"
+node_exporter_url="https://github.com/prometheus/node_exporter/releases/download/v${node_exporter_version}/node_exporter-${node_exporter_version}.linux-${ARCH}.tar.gz"
+mysqld_exporter_url="https://github.com/prometheus/mysqld_exporter/releases/download/v${mysqld_exporter_version}/mysqld_exporter-${mysqld_exporter_version}.linux-${ARCH}.tar.gz"
+redis_exporter_url="https://github.com/oliver006/redis_exporter/releases/download/v${redis_exporter_version}/redis_exporter-v${redis_exporter_version}.linux-${ARCH}.tar.gz"
+nginx_exporter_url="https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${nginx_exporter_version}/nginx-prometheus-exporter-${nginx_exporter_version}-linux-${ARCH}.tar.gz"
+phpfpm_exporter_url="https://github.com/Lusitaniae/phpfpm_exporter/releases/download/v${phpfpm_exporter_version}/phpfpm_exporter-${phpfpm_exporter_version}.linux-${ARCH}.tar.gz"
+mongodb_exporter_url="https://github.com/percona/mongodb_exporter/releases/download/v${mongodb_exporter_version}/mongodb_exporter-${mongodb_exporter_version}.linux-${ARCH}.tar.gz"
+rabbitmq_exporter_url="https://github.com/kbudde/rabbitmq_exporter/releases/download/v${rabbitmq_exporter_version}/rabbitmq_exporter-${rabbitmq_exporter_version}.linux-${ARCH}.tar.gz"
 whileint="1"
 while [ $whileint -eq 1 ]
 do
