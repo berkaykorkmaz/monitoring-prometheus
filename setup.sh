@@ -6,6 +6,7 @@ redis_exporter_version="1.12.1"   # check latest version https://github.com/oliv
 nginx_exporter_version="0.8.0"   # check latest version https://github.com/nginxinc/nginx-prometheus-exporter/releases
 phpfpm_exporter_version="0.5.0"  # check latest version https://github.com/Lusitaniae/phpfpm_exporter/releases
 mongodb_exporter_version="0.11.2" # check latest version https://github.com/percona/mongodb_exporter/releases/
+rabbitmq_exporter_version="1.0.0-RC7" #check latest version https://github.com/kbudde/rabbitmq_exporter/releases
 mysql_username="deneme"
 mysql_password="deme"
 mysql_host="127.0.0.1"
@@ -20,13 +21,14 @@ redis_exporter_url="https://github.com/oliver006/redis_exporter/releases/downloa
 nginx_exporter_url="https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${nginx_exporter_version}/nginx-prometheus-exporter-${nginx_exporter_version}-linux-amd64.tar.gz"
 phpfpm_exporter_url="https://github.com/Lusitaniae/phpfpm_exporter/releases/download/v${phpfpm_exporter_version}/phpfpm_exporter-${phpfpm_exporter_version}.linux-amd64.tar.gz"
 mongodb_exporter_url="https://github.com/percona/mongodb_exporter/releases/download/v${mongodb_exporter_version}/mongodb_exporter-${mongodb_exporter_version}.linux-amd64.tar.gz"
+rabbitmq_exporter_url="https://github.com/kbudde/rabbitmq_exporter/releases/download/v${rabbitmq_exporter_version}/rabbitmq_exporter-${rabbitmq_exporter_version}.linux-amd64.tar.gz"
 whileint="1"
 while [ $whileint -eq 1 ]
 do
 karar='n'
 printf "${RED} Welcome the installation\n "
 printf "Please select which you want to install\n "
-printf "1- Prometheus Server\n 2- Node Exporter\n 3- MySQL Exporter\n 4- Redis Exporter\n 5- Nginx Exporter\n 6- php-fpm exporter \n 7- mongodb exporter \n 8-Grafana Install \n 0- Exit\n "
+printf "1- Prometheus Server\n 2- Node Exporter\n 3- MySQL Exporter\n 4- Redis Exporter\n 5- Nginx Exporter\n 6- php-fpm exporter \n 7- mongodb exporter \n 8- RabbitMQ exporter \n 9- Grafana Install \n 0- Exit\n "
 printf "Selection: ${YELLOW} " && read select
 printf "${NC}"
 
@@ -80,7 +82,10 @@ printf "${RED}You should be check the /etc/.my.cnf ${NC} "
 printf "${RED}You don't forget change your prometheus config file.\n ${YELLOW}"
 printf "Mysqld exporter port: 9905/TCP ${NC}\n"
 }
-
+function_rabbitmq_exporter_todo  () {
+printf "${RED}You don't forget change your prometheus config file.\n ${YELLOW}"
+printf "RabbitMQ exporter port: 9907/TCP ${NC}\n"
+}
 function_redis_exporter_todo  () {
 printf "${RED}You don't forget change your prometheus config file.\n ${YELLOW}"
 printf "Redis exporter port: 9902/TCP ${NC}\n"
@@ -235,6 +240,21 @@ function_mongodb_exporter_install() {
     printf "${RED} Installation succeed\n ${NC}"
     function_mongodb_exporter_todo
 }
+function_rabbitmq_exporter_install() {
+    wget -b $rabbitmq_exporter_url
+    sleep 3
+    function_usernodeusr
+    tar -xzf rabbitmq_exporter-*.tar.gz
+    rm -rf rabbitmq_exporter-*.tar.gz
+    mv rabbitmq_exporter*/rabbitmq_exporter /usr/local/bin
+    function_service_rabbitmq
+    function_conf_rabbitmq
+    rm -rf rabbitmq_exporter*
+    systemctl enable rabbitmq_exporter --now
+    rm -rf wget-log*
+    printf "${RED} Installation succeed\n ${NC}"
+    function_rabbitmq_exporter_todo
+}
 function_service_prometheus() {
     cat >/etc/systemd/system/prometheus.service <<-EOF
 [Unit]
@@ -355,6 +375,50 @@ ExecStart=/usr/local/bin/phpfpm_exporter --phpfpm.socket-paths /run/php-fpm/www.
 WantedBy=multi-user.target
 EOF
 }
+function_service_rabbitmq() {
+    cat >/etc/systemd/system/rabbitmq_exporter.service <<-EOF
+[Unit]
+Description=RabbitMQ Exporter Service
+Wants=network.target
+After=network.target
+
+[Service]
+User=nodeusr
+Group=nodeusr
+Type=simple
+Restart=always
+ExecStart=/usr/local/bin/rabbitmq_exporter -config-file /etc/rabbitmq-exporter-conf.json
+[Install]
+WantedBy=multi-user.target
+EOF
+}
+function_conf_rabbitmq(){
+    cat >/etc/rabbitmq-exporter-conf.json <<-EOF
+{
+    "rabbit_url": "http://127.0.0.1:15672",
+    "rabbit_user": "guest",
+    "rabbit_pass": "guest",
+    "publish_port": "9907",
+    "publish_addr": "",
+    "output_format": "TTY",
+    "insecure_skip_verify": true,
+    "exlude_metrics": [],
+    "include_queues": ".*",
+    "skip_queues": "^$",
+    "skip_vhost": "^$",
+    "include_vhost": ".*",
+    "rabbit_capabilities": "no_sort,bert",
+    "enabled_exporters": [
+            "exchange",
+            "node",
+            "overview",
+            "queue"
+    ],
+    "timeout": 30,
+    "max_queues": 0
+}
+EOF
+}
 function_prometheus_config() {
     cat >${install_dir}/prometheus.yml <<-EOF
 global:
@@ -389,6 +453,8 @@ elif [[ $select -eq 6 ]]; then
 elif [[ $select -eq 7 ]]; then
     function_mongodb_exporter_install
 elif [[ $select -eq 8 ]]; then
+    function_rabbitmq_exporter_install
+elif [[ $select -eq 9 ]]; then
     function_grafana_install
 elif [[ $select -eq 0 ]]; then
     exit 0
