@@ -225,6 +225,7 @@ function_phpfpm_exporter_install() {
 function_grafana_install () {
     wget -b https://dl.grafana.com/oss/release/grafana-7.0.6-1.x86_64.rpm
     yum install grafana-7.0.6-1.x86_64.rpm -y
+    sleep 3
     systemctl enable grafana-server --now
 }
 
