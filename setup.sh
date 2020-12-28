@@ -172,8 +172,8 @@ function_mysqld_exporter_install() {
     mv mysqld_exporter*/mysqld_exporter /usr/local/bin
     echo "[client]" >/etc/.my.cnf
     echo "user=$mysql_username" >>/etc/.my.cnf
-    echo "user=$mysql_password" >>/etc/.my.cnf
-    echo "user=$mysql_host" >>/etc/.my.cnf
+    echo "password=$mysql_password" >>/etc/.my.cnf
+    echo "host=$mysql_host" >>/etc/.my.cnf
     function_service_mysqld
     rm -rf mysqld_exporter*
     systemctl enable mysqld_exporter --now
