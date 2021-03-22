@@ -1,12 +1,12 @@
 #!/bin/bash
-prometheus_version="2.22.0"      # check latest version https://github.com/prometheus/prometheus/releases
-node_exporter_version="1.0.1"    # check latest version https://github.com/prometheus/node_exporter/releases
+prometheus_version="2.25.2"      # check latest version https://github.com/prometheus/prometheus/releases
+node_exporter_version="1.1.2"    # check latest version https://github.com/prometheus/node_exporter/releases
 mysqld_exporter_version="0.12.1" # check latest version https://github.com/prometheus/mysqld_exporter/releases
-redis_exporter_version="1.12.1"   # check latest version https://github.com/oliver006/redis_exporter/releases
+redis_exporter_version="1.19.0"   # check latest version https://github.com/oliver006/redis_exporter/releases
 nginx_exporter_version="0.8.0"   # check latest version https://github.com/nginxinc/nginx-prometheus-exporter/releases
 phpfpm_exporter_version="0.5.0"  # check latest version https://github.com/Lusitaniae/phpfpm_exporter/releases
-mongodb_exporter_version="0.11.2" # check latest version https://github.com/percona/mongodb_exporter/releases/
-rabbitmq_exporter_version="1.0.0-RC7" #check latest version https://github.com/kbudde/rabbitmq_exporter/releases
+mongodb_exporter_version="0.20.3" # check latest version https://github.com/percona/mongodb_exporter/releases/
+rabbitmq_exporter_version="v1.0.0-RC8" #check latest version https://github.com/kbudde/rabbitmq_exporter/releases
 mysql_username="deneme"
 mysql_password="deme"
 mysql_host="127.0.0.1"
